@@ -1,15 +1,15 @@
-import { useAuth } from '../utils/authContext';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate } from 'react-router';
 
-const ProtectedRoute = ({ children }) => {
-  const { user } = useAuth();
-  const location = useLocation();
-
-  if (!user) {
-    return <Navigate to="/" replace state={{ from: location }} />;
-  }
-
-  return children;
+export type ProtectedRouteProps = {
+  isAuthenticated: boolean;
+  authenticationPath: string;
+  outlet: JSX.Element;
 };
 
-export default ProtectedRoute;
+export default function ProtectedRoute({ isAuthenticated, authenticationPath, outlet }: ProtectedRouteProps) {
+  if (isAuthenticated) {
+    return outlet;
+  } else {
+    return <Navigate to={{ pathname: authenticationPath }} />;
+  }
+}

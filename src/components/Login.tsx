@@ -1,15 +1,25 @@
+import axios from 'axios';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useAuth } from '../utils/authContext';
+import { useNavigate, useLocation } from 'react-router';
+import { useAuthContext } from '../contexts/AuthContext';
 
 const Login = () => {
-  const { onLogin } = useAuth();
+  const [authContext, setAuthContext] = useAuthContext();
+  const navigate = useNavigate();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const token = params.get('token');
 
+  const handleLogin = async () => {
+    const res = await axios.get(`http://localhost:3001/login?token=${token}`, { withCredentials: true });
+    if (res.status === 200) {
+      setAuthContext({ ...authContext, isAuthenticated: true });
+      navigate(authContext.redirectPath);
+    }
+  };
+
   useEffect(() => {
-    if (token) onLogin(token);
+    handleLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

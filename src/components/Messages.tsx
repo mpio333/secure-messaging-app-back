@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { User } from '../types/User';
+import { User } from '../types/user';
 
 const Messages = () => {
   const [users, setUsers] = useState<User[]>([]);

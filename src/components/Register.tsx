@@ -1,12 +1,14 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useAuth } from '../utils/authContext';
+import { useNavigate } from 'react-router';
+import { useAuthContext } from '../contexts/AuthContext';
 
 const Register = () => {
-  const { validateCookie } = useAuth();
+  const [authContext] = useAuthContext();
   const [email, setEmail] = useState('');
   const [admin, setAdmin] = useState(false);
   const [submitted, setSubmitted] = useState(0);
+  const navigate = useNavigate();
 
   const handleClick = async () => {
     const roles = [];
@@ -22,7 +24,7 @@ const Register = () => {
   };
 
   useEffect(() => {
-    validateCookie();
+    if (authContext.isAuthenticated) navigate('messages');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
