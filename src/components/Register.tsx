@@ -29,13 +29,13 @@ const Register = () => {
   }, []);
 
   return (
-    <div>
-      <h1 className="font-bold text-2xl">Welcome Back</h1>
+    <div className="flex justify-center items-center pt-10">
       {submitted === 201 ? (
         <span>Please check your email</span>
       ) : (
         <form className="flex flex-col bg-white rounded shadow-lg p-12 mt-12" action="">
-          <h2>Register or Login</h2>
+          <h1 className="font-bold text-2xl">CW</h1>
+          <h2 className="mb-8 text-xl">Register or Login</h2>
           <label className="font-semibold text-xs">Email</label>
           <input
             className="flex items-center h-12 px-4 w-64 bg-gray-200 mt-2 rounded focus:outline-none focus:ring-2"
@@ -43,8 +43,10 @@ const Register = () => {
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
-          <label className="font-semibold text-xs">Admin</label>
-          <input type="checkbox" onChange={e => setAdmin(e.target.checked)} checked={admin} />
+          <div className="flex flex-row mt-2">
+            <input type="checkbox" onChange={e => setAdmin(e.target.checked)} checked={admin} />
+            <label className="font-semibold text-xs ml-2">Admin</label>
+          </div>
           <button
             type="button"
             onClick={(): Promise<void> => handleClick()}

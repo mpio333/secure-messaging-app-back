@@ -13,8 +13,8 @@ const Login = () => {
   const handleLogin = async () => {
     const res = await axios.get(`http://localhost:3001/login?token=${token}`, { withCredentials: true });
     if (res.status === 200) {
-      setAuthContext({ ...authContext, isAuthenticated: true });
-      navigate(authContext.redirectPath);
+      setAuthContext({ ...authContext, isAuthenticated: true, user: res.data.data });
+      navigate('/messages');
     }
   };
 

@@ -1,4 +1,6 @@
+import { User } from './user';
+
 export type Auth = {
   isAuthenticated: boolean;
-  redirectPath: string;
+  user?: User;
 };

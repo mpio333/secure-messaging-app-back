@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router';
+import { Routes, Route, useNavigate } from 'react-router';
 import { useAuthContext } from './contexts/AuthContext';
 import Register from './components/Register';
 import ProtectedRoute, { ProtectedRouteProps } from './components/ProtectedRoute';
@@ -7,27 +7,22 @@ import Messages from './components/Messages';
 import { useEffect } from 'react';
 import axios from 'axios';
 import Navigation from './components/Navigation';
+import Chat from './components/Chat';
 
 const App = () => {
   const [authContext, setAuthContext] = useAuthContext();
-
-  const setRedirectPath = (path: string) => {
-    setAuthContext({ ...authContext, redirectPath: path });
-  };
-
-  if (!authContext.redirectPath) {
-    setRedirectPath('messages');
-  }
+  const navigate = useNavigate();
 
   const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
     isAuthenticated: authContext.isAuthenticated,
-    authenticationPath: 'register',
+    authenticationPath: '/register',
   };
 
   const validateCookie = async () => {
     const res = await axios.get('http://localhost:3001/session', { withCredentials: true });
     if (res.status === 200) {
-      setAuthContext({ ...authContext, isAuthenticated: true });
+      setAuthContext({ ...authContext, isAuthenticated: true, user: res.data.data });
+      navigate('/messages');
     }
   };
 
@@ -40,6 +35,7 @@ const App = () => {
     <Routes>
       <Route index element={<Navigation />} />
       <Route path="messages" element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Messages />} />} />
+      <Route path="chat" element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Chat />} />} />
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
     </Routes>

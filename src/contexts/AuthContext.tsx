@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from 'react';
 import { Auth } from '../types/auth';
 
-const initialAuth = { isAuthenticated: false, redirectPath: '/' };
+const initialAuth = { isAuthenticated: false };
 export const AuthContext = createContext<[Auth, (session: Auth) => void]>([initialAuth, () => {}]);
 export const useAuthContext = () => useContext(AuthContext);
 
