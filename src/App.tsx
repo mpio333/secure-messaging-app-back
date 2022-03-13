@@ -33,11 +33,12 @@ const App = () => {
 
   return (
     <Routes>
-      <Route index element={<Navigation />} />
+      <Route index element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Navigation />} />} />
       <Route path="messages" element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Messages />} />} />
       <Route path="chat" element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Chat />} />} />
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
+      <Route path="*" element={<Register />} />
     </Routes>
   );
 };

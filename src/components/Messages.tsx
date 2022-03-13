@@ -24,8 +24,8 @@ const Messages = () => {
     <div>
       <Navigation />
       <div className="flex flox-col justify-center items-center pt-10">
-        <div className="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden mt-10">
-          <div className="bg-white shadow overflow-hidden">
+        <div className="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg mt-10">
+          <div className="bg-white shadow">
             <div className="flex items-center justify-between px-4 py-5 sm:px-6">
               <h3 className="text-lg leading-6 font-medium text-gray-900">Messages</h3>
               {authContext.user?.roles.includes('admin') ? <NewMessageButton /> : null}
