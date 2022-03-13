@@ -1,7 +1,7 @@
 import { useAuthContext } from '../contexts/AuthContext';
 import { Message } from '../types/messages';
 
-const ChatMessage = ({ author, body, createdAt }: Message) => {
+const ChatMessage = ({ author, body, createdAt, seen }: Message) => {
   const [authContext] = useAuthContext();
   return (
     <div className={`flex w-full mt-2 space-x-3 max-w-xs ${authContext.user?._id === author ? 'ml-auto justify-end' : ''}`}>
@@ -14,7 +14,7 @@ const ChatMessage = ({ author, body, createdAt }: Message) => {
         >
           <p className="text-sm">{body}</p>
         </div>
-        <span className="text-xs text-gray-500 leading-none">{createdAt}</span>
+        <span className={`text-xs leading-none ${seen ? 'text-green-500' : 'text-gray-500'}`}>{new Date(createdAt).toLocaleString()}</span>
       </div>
     </div>
   );
