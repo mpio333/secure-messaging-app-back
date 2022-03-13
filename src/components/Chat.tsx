@@ -12,17 +12,15 @@ const Chat = () => {
   const params = new URLSearchParams(location.search);
   const threadId = params.get('id');
 
-  console.log(messages);
+  const handleSend = async () => {
+    const res = await axios.post(`http://localhost:3001/messages/${threadId}`, { body: message }, { withCredentials: true });
+    if (res.status === 200) setMessages(res.data.data?.messages || []);
+    setMessage('');
+  };
 
   const getMessages = async () => {
-    const res = await axios.get(`http://localhost:3001/messages?id=${threadId}`, { withCredentials: true });
-    if (res.status === 200) setMessages(res.data.data);
-
-    //REMOVE
-    setMessages([
-      { _id: 'asd', author: 'user1', body: 'some message', createdAt: +Date.now(), seen: true },
-      { _id: 'asdq', author: 'user1', body: 'some other message', createdAt: +Date.now(), seen: false },
-    ]);
+    const res = await axios.get(`http://localhost:3001/messages/${threadId}`, { withCredentials: true });
+    if (res.status === 200) setMessages(res.data.data?.messages || []);
   };
 
   useEffect(() => {
@@ -44,7 +42,7 @@ const Chat = () => {
                 <ChatMessage key={m._id} {...m} />
               ))}
             </div>
-            <div className="bg-gray-300 p-4">
+            <div className="flex bg-gray-300 p-4">
               <input
                 className="flex items-center h-10 w-full rounded px-3 text-sm"
                 type="text"
@@ -52,6 +50,12 @@ const Chat = () => {
                 value={message}
                 onChange={e => setMessage(e.target.value)}
               />
+              <button
+                onClick={() => handleSend()}
+                className="flex items-center justify-center ml-3 h-10 px-4 text-white text-sm font-medium rounded bg-gray-500 hover:bg-gray-600"
+              >
+                Send
+              </button>
             </div>
           </div>
         </div>
